@@ -12,10 +12,11 @@ get this to work with overing rather then clicking
 public class Skills
 {
     public string skillName;
-    public ParticleEmitter SkillEffects;
+    public ParticleSystem SkillEffects;
     public float damage;
     public Button skillButton;
     public KeyCode key;
+    public bool choosenSkill = false;
     [Header("Level Requirements")]
     public int level;
     public Button[] requiredSkills;
@@ -29,14 +30,15 @@ public class SkillTree : MonoBehaviour
 {
     public List<Skills> skills;
     [SerializeField]
-     LevelingShit leveling;
-   
+    LevelingShit leveling;
+
     // Use this for initialization
     void Start()
     {
-        for(int i = 0; i < skills.Count; i++) //sets the names of the skills
+        for (int i = 0; i < skills.Count; i++) //sets the names of the skills
         {
-            skills[i].skillText.text = skills[i].skillName;
+            skills[i].skillText.text = skills[i].skillName; //Sets text to teh skill name
+            skills[i].SkillEffects.gameObject.SetActive(false);
         }
     }
 
@@ -53,7 +55,27 @@ public class SkillTree : MonoBehaviour
             {
                 skills[i].skillButton.interactable = false; //other wise be false
             }
+            if (skills[i].choosenSkill != false) //needs a different check
+            {
+                if (Input.GetKey(skills[i].key)) //checks to see what key is pressed
+                {
+                    skills[i].SkillEffects.gameObject.SetActive(true);
+                    skills[i].SkillEffects.Play(true); //plays the partical effect
+                }
+            
+            }
         }
     }
-       
+
+    public void BoolCheck(string skillName)
+    {
+        for (int i = 0; i < skills.Count; i++)
+        {
+            if(skillName == skills[i].skillName)
+            {
+                skills[i].choosenSkill = true;
+            }
+        }
+    }
+
 }
