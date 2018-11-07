@@ -18,7 +18,7 @@ public class Skills
     public ParticleSystem SkillEffects;
     public float damage;
     public Button skillButton;
-    public KeyCode[] key;
+    public KeyCode[] combo;
     public bool choosenSkill = false;
     [Header("Level Requirements")]
     public int level;
@@ -31,6 +31,7 @@ public class Skills
 
 public class SkillTree : MonoBehaviour
 {
+    public List<KeyCode> storedKeys;
     public List<Skills> skills;
     [SerializeField]
     LevelingShit leveling;
@@ -60,12 +61,11 @@ public class SkillTree : MonoBehaviour
             }
             if (skills[i].choosenSkill != false) //needs a different check
             {
-                for (int j = 0; j < skills[i].key.Length; i++)
+                for (int j = 0; j < skills[i].combo.Length; j++)
                 {
-
-                    if (Input.GetKeyDown(skills[i].key[j])) //checks to see what key is pressed
+                    if (Input.GetKeyDown(skills[i].combo[j])) //checks to see what key is pressed
                     {
-                       
+                        StartCoroutine(KeyReader());
                     }
                 }
 
@@ -83,24 +83,43 @@ public class SkillTree : MonoBehaviour
             }
         }
     }
-    private void OnGUI()
+    //private void OnGUI()
+    //{
+    //    Event e = Event.current;
+    //    if (e.isKey)
+    //    {
+    //        for (int i = 0; i < skills.Count; i++)
+    //        {
+    //            for (int j = 0; j < skills[i].combo.Length; j++)
+    //            {
+    //                if (skills[i].combo[j] == e.keyCode)
+    //                {
+    //                    skills[i].SkillEffects.gameObject.SetActive(true);
+    //                    skills[i].SkillEffects.Play(true); //plays the partical effect
+    //                }
+    //            }
+
+    //        }
+    //        Debug.Log("Key Press: " + e.keyCode);
+    //    }
+    //}
+    IEnumerator KeyReader()
     {
-        Event e = Event.current;
-        if(e.isKey)
+        float timer = 0;
+        while (timer <= 1)
         {
-            for(int i = 0; i < skills.Count; i++)
+            Event e = Event.current;
+            if (e.isKey)
             {
-                for (int j = 0; j < skills[i].key.Length; j++)
-                {
-                    if(skills[i].key[i] == e.keyCode)
-                    {
-                        skills[i].SkillEffects.gameObject.SetActive(true);
-                        skills[i].SkillEffects.Play(true); //plays the partical effect
-                    }
-                }
+                storedKeys.Add(e.keyCode);
+                //skills[i].SkillEffects.gameObject.SetActive(true);
+                //skills[i].SkillEffects.Play(true); //plays the partical effect
             }
-            Debug.Log("Key Press: " + e.keyCode);
+            timer += Time.deltaTime;
         }
+        
+        yield return new WaitForSeconds(1);
     }
+        
 
 }
