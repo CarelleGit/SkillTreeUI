@@ -36,6 +36,8 @@ public class SkillTree : MonoBehaviour
     [SerializeField]
     LevelingShit leveling;
 
+    bool isTimerRunning = false;
+
     // Use this for initialization
     void Start()
     {
@@ -49,6 +51,41 @@ public class SkillTree : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+        if (storedKeys.Count > 0 && !isTimerRunning)
+        {
+
+            for (int i = 0; i < skills.Count; i++)
+            {
+                if (leveling.levelNumber >= skills[i].level) //checks to see if the player is of the correct level
+                {
+                    skills[i].skillButton.interactable = true; //make button interactiable if level requarment is met
+                }
+                else
+                {
+                    skills[i].skillButton.interactable = false; //other wise be false
+                }
+
+                if (skills[i].choosenSkill != false) //needs a different check
+                {
+                    if (skills[i].combo[0] == storedKeys[0])
+                    {
+                        //Debug.Log("Timer started!");
+                        isTimerRunning = true;
+                        StartCoroutine(KeyReader());
+                        break;
+                    }
+                }
+
+                if (isTimerRunning == false)
+                {
+                    storedKeys.Clear();
+                }
+            }
+        }
+
+        /*
         for (int i = 0; i < skills.Count; i++) //don't make this be checked every frame
         {
             if (leveling.levelNumber >= skills[i].level) //checks to see if the player is of the correct level
@@ -71,6 +108,7 @@ public class SkillTree : MonoBehaviour
 
             }
         }
+        */
     }
 
     public void BoolCheck(string skillName)
@@ -83,43 +121,42 @@ public class SkillTree : MonoBehaviour
             }
         }
     }
-    //private void OnGUI()
-    //{
-    //    Event e = Event.current;
-    //    if (e.isKey)
-    //    {
-    //        for (int i = 0; i < skills.Count; i++)
-    //        {
-    //            for (int j = 0; j < skills[i].combo.Length; j++)
-    //            {
-    //                if (skills[i].combo[j] == e.keyCode)
-    //                {
-    //                    skills[i].SkillEffects.gameObject.SetActive(true);
-    //                    skills[i].SkillEffects.Play(true); //plays the partical effect
-    //                }
-    //            }
-
-    //        }
-    //        Debug.Log("Key Press: " + e.keyCode);
-    //    }
-    //}
+    private void OnGUI()
+    {
+        Event e = Event.current;
+        if (e.isKey && Input.GetKeyDown(e.keyCode))
+        {
+            //Debug.Log("Key Press: " + e.keyCode);
+            storedKeys.Add(e.keyCode);
+        }
+    }
     IEnumerator KeyReader()
     {
-        float timer = 0;
-        while (timer <= 1)
-        {
-            Event e = Event.current;
-            if (e.isKey)
-            {
-                storedKeys.Add(e.keyCode);
-                //skills[i].SkillEffects.gameObject.SetActive(true);
-                //skills[i].SkillEffects.Play(true); //plays the partical effect
-            }
-            timer += Time.deltaTime;
-        }
-        
         yield return new WaitForSeconds(1);
-    }
-        
 
+        for(int i = 0; i < skills.Count; i++)
+        {
+            if(storedKeys.Count != skills[i].combo.Length) { continue; }
+
+            bool match = true;
+            for(int j = 0; j < skills[i].combo.Length; j++)
+            {
+                if(storedKeys[j] != skills[i].combo[j])
+                {
+                    match = false;
+                    break;
+                }
+            }
+
+            if(match)
+            {
+                Debug.Log(skills[i].skillName);
+                break;
+            }
+        }
+
+        storedKeys.Clear();
+        //Debug.Log("Timer stopped!");
+        isTimerRunning = false;
+    }
 }
