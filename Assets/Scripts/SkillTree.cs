@@ -5,6 +5,9 @@ using UnityEngine.UI;
 /*TODO
 Make a seperate script to handle UI
 
+store keys that have been pressed as a keycode
+make a corutin for the one second 
+
 In the Script that handles the UI make it pop open a window that shows the damage and requirements 
 get this to work with overing rather then clicking
 */
@@ -15,7 +18,7 @@ public class Skills
     public ParticleSystem SkillEffects;
     public float damage;
     public Button skillButton;
-    public KeyCode key;
+    public KeyCode[] key;
     public bool choosenSkill = false;
     [Header("Level Requirements")]
     public int level;
@@ -57,12 +60,15 @@ public class SkillTree : MonoBehaviour
             }
             if (skills[i].choosenSkill != false) //needs a different check
             {
-                if (Input.GetKey(skills[i].key)) //checks to see what key is pressed
+                for (int j = 0; j < skills[i].key.Length; i++)
                 {
-                    skills[i].SkillEffects.gameObject.SetActive(true);
-                    skills[i].SkillEffects.Play(true); //plays the partical effect
+
+                    if (Input.GetKeyDown(skills[i].key[j])) //checks to see what key is pressed
+                    {
+                       
+                    }
                 }
-            
+
             }
         }
     }
@@ -75,6 +81,25 @@ public class SkillTree : MonoBehaviour
             {
                 skills[i].choosenSkill = true;
             }
+        }
+    }
+    private void OnGUI()
+    {
+        Event e = Event.current;
+        if(e.isKey)
+        {
+            for(int i = 0; i < skills.Count; i++)
+            {
+                for (int j = 0; j < skills[i].key.Length; j++)
+                {
+                    if(skills[i].key[i] == e.keyCode)
+                    {
+                        skills[i].SkillEffects.gameObject.SetActive(true);
+                        skills[i].SkillEffects.Play(true); //plays the partical effect
+                    }
+                }
+            }
+            Debug.Log("Key Press: " + e.keyCode);
         }
     }
 
