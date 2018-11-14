@@ -5133,36 +5133,39 @@ MonoBehaviour:
   storedKeys: 
   skills:
   - skillName: Skill1
+    skillButton: {fileID: 260811811}
     SkillEffects: {fileID: 786798170}
     damage: 1
-    skillButton: {fileID: 791303761}
-    combo: 690000006b0000006c000000
+    combo: 660000006600000066000000
+    unlock: 0
     choosenSkill: 0
     level: 1
-    requiredSkills: []
+    requiredSkill: []
     skillText: {fileID: 1897565538}
     LevelReqirement: {fileID: 0}
     Damage: {fileID: 0}
   - skillName: Skill2
+    skillButton: {fileID: 260811811}
     SkillEffects: {fileID: 242128967}
     damage: 2
-    skillButton: {fileID: 260811811}
     combo: 7100000065000000
+    unlock: 0
     choosenSkill: 0
     level: 10
-    requiredSkills: []
+    requiredSkill:
+    - {fileID: 791303761}
     skillText: {fileID: 1689292263}
     LevelReqirement: {fileID: 0}
     Damage: {fileID: 0}
   - skillName: Aziza Healing
+    skillButton: {fileID: 189072137}
     SkillEffects: {fileID: 1733970418}
     damage: -2
-    skillButton: {fileID: 189072137}
     combo: 35000000
+    unlock: 0
     choosenSkill: 0
     level: 5
-    requiredSkills:
-    - {fileID: 791303761}
+    requiredSkill: []
     skillText: {fileID: 1370033855}
     LevelReqirement: {fileID: 0}
     Damage: {fileID: 0}
