@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 /*TODO
-Make a seperate script to handle UI
-
-store keys that have been pressed as a keycode
-make a corutin for the one second 
-
-In the Script that handles the UI make it pop open a window that shows the damage and requirements 
-get this to work with overing rather then clicking
+        Finish the Skill requirements
+        Add in cool downs
+        Make a PlayerInfo script
+        replace LevelingShit with PlayerInfo
+        TEST
+        Once Done Comment on how to hook everything up
 */
 [System.Serializable]
 public class Skills
@@ -25,8 +24,9 @@ public class Skills
     public bool choosenSkill = false;
     [Header("_|Level Requirements|___")]
     public int level;
-    public Button[] requiredSkill;
-   
+    [Header("_|Skill Costs|___")]
+    public int manaCost;
+    public float coolDown;
     [Header("_|Texts|___")]
     public Text skillText;
     public Text LevelReqirement;
@@ -73,23 +73,28 @@ public class SkillTree : MonoBehaviour
                         break;
                     }
                 }
-                if (skills[i].requiredSkill.Length == 0)
+
+                if (leveling.levelNumber >= skills[i].level - 1 && skills[i].requiredSkill.Length == 0) //checks to see if the player is of the correct level
                 {
-                    if (leveling.levelNumber >= skills[i].level - 1) //checks to see if the player is of the correct level
-                    {
-                        skills[i].skillButton.interactable = true; //make button interactiable if level requarment is met
-                    }
-                    else
-                    {
-                        skills[i].skillButton.interactable = false; //other wise be false
-                    }
+                    skills[i].skillButton.interactable = true; //make button interactiable if level requarment is met
                 }
-                if (skills[i].requiredSkill.Length > 0)
+                else if (skills[i].unlock == true && leveling.levelNumber >= skills[i].level - 1)
                 {
-                    skills[i].unlock = true;
+                    skills[i].skillButton.interactable = true;
                 }
-               
-          
+                else
+                {
+                    skills[i].skillButton.interactable = false;
+                }
+                for(int j = 0; j < skills[i].requiredSkill.Length; j++)
+                if(skills[i].requiredSkill.Length > 0 )
+                {
+                        skills[i].unlock = true;
+                }
+                else
+                    {
+                        skills[i].unlock = false;
+                    }
 
             }
             if (isTimerRunning == false)//This does not belong in the for loop, doing so causes it to clear out the storedKeys way to early
@@ -105,6 +110,7 @@ public class SkillTree : MonoBehaviour
             if(skillName == skills[i].skillName)
             {
                 skills[i].choosenSkill = true;
+                
             }
         }
     }
