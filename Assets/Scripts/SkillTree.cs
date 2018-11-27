@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 /*TODO
-        Finish the Skill requirements
         Add in cool downs
         Make a PlayerInfo script
         replace LevelingShit with PlayerInfo
+        Make the Inspector UI look better end easier to navagate
         TEST
         Once Done Comment on how to hook everything up
 */
@@ -23,6 +23,7 @@ public class Skills
     public bool unlock;
     public bool choosenSkill = false;
     [Header("_|Level Requirements|___")]
+    public Button[] requiredSkill;
     public int level;
     [Header("_|Skill Costs|___")]
     public int manaCost;
@@ -62,6 +63,20 @@ public class SkillTree : MonoBehaviour
         {
             for (int i = 0; i < skills.Count; i++)
             {
+                for (int j = 0; j < skills[i].requiredSkill.Length; j++)
+                {
+                    if (skills[i].requiredSkill[j].interactable == true && skills[i].requiredSkill.Length >= 1)
+                    {
+                        if (skills[j].choosenSkill == true && leveling.levelNumber >= skills[i].level -1)
+                        {
+                            skills[i].unlock = true;
+                        }
+                    }
+                    else
+                    {
+                        skills[i].unlock = false;
+                    }
+                }
                 if (skills[i].choosenSkill != false)
                 {
 
@@ -86,16 +101,7 @@ public class SkillTree : MonoBehaviour
                 {
                     skills[i].skillButton.interactable = false;
                 }
-                for(int j = 0; j < skills[i].requiredSkill.Length; j++)
-                if(skills[i].requiredSkill.Length > 0 )
-                {
-                        skills[i].unlock = true;
-                }
-                else
-                    {
-                        skills[i].unlock = false;
-                    }
-
+                
             }
             if (isTimerRunning == false)//This does not belong in the for loop, doing so causes it to clear out the storedKeys way to early
             {

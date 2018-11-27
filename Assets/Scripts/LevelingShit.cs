@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class LevelingShit : MonoBehaviour
 {
     public Text level;
+    public Text mana;
     public int levelNumber = 0;
+   
     // Use this for initialization
     void Start()
     {
