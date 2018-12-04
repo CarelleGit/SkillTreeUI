@@ -5058,6 +5058,8 @@ GameObject:
   - component: {fileID: 305600855}
   - component: {fileID: 305600854}
   - component: {fileID: 305600857}
+  - component: {fileID: 305600858}
+  - component: {fileID: 305600859}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -5138,7 +5140,8 @@ MonoBehaviour:
     skillButton: {fileID: 791303761}
     SkillEffects: {fileID: 786798170}
     damage: 1
-    combo: 660000006600000066000000
+    defence: 0
+    combo: 
     unlock: 0
     choosenSkill: 0
     requiredSkill: []
@@ -5154,6 +5157,7 @@ MonoBehaviour:
     skillButton: {fileID: 260811811}
     SkillEffects: {fileID: 242128967}
     damage: 2
+    defence: 0
     combo: 6600000066000000
     unlock: 0
     choosenSkill: 0
@@ -5171,6 +5175,7 @@ MonoBehaviour:
     skillButton: {fileID: 189072137}
     SkillEffects: {fileID: 1733970418}
     damage: -2
+    defence: 0
     combo: 35000000
     unlock: 0
     choosenSkill: 0
@@ -5183,8 +5188,40 @@ MonoBehaviour:
     Damage: {fileID: 0}
     cooldown: {fileID: 1423476299}
     cooldownHandle: 0
-  leveling: {fileID: 422108845}
+  leveling: {fileID: 305600858}
   isTimerRunning: 0
+--- !u!114 &305600858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 305600853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ec91a188a3e8f49b3ad7c2705bde41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 0
+  damage: 0
+  manaAmount: 0
+  requiredExp: 10
+  expScale: 5
+--- !u!114 &305600859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 305600853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12a5f42b0b9d94c48baf8742e73a84a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: {fileID: 762619204}
+  mana: {fileID: 1349315028}
+  levelNumber: 0
+  manaAmount: 0
+  leeevd: {fileID: 305600858}
 --- !u!1 &422108839
 GameObject:
   m_ObjectHideFlags: 0
@@ -5197,8 +5234,6 @@ GameObject:
   - component: {fileID: 422108842}
   - component: {fileID: 422108841}
   - component: {fileID: 422108840}
-  - component: {fileID: 422108845}
-  - component: {fileID: 422108846}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5300,36 +5335,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &422108845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 422108839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12a5f42b0b9d94c48baf8742e73a84a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: {fileID: 762619204}
-  mana: {fileID: 1349315028}
-  levelNumber: 0
-  manaAmount: 0
---- !u!114 &422108846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 422108839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dbebf20dd685974d8495bdeb68f8a36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 10
-  heathText: {fileID: 1722583726}
-  damageTaken: {fileID: 2054299623}
-  skill: {fileID: 305600857}
 --- !u!1 &443440936
 GameObject:
   m_ObjectHideFlags: 0

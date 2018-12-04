@@ -9,20 +9,20 @@ public class LevelingShit : MonoBehaviour
     public Text mana;
     public int levelNumber = 0;
     public int manaAmount = 0;
+    public PlayerInfo leeevd;
     // Use this for initialization
     void Start()
     {
         mana.text = "Mana: " + manaAmount;
-        level.text = "Level: " + levelNumber;
+        level.text = "Level: " + leeevd.level;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.L))
+        if(Input.GetKeyDown(KeyCode.L))
         {
-            levelNumber += 1;
-            level.text = "Level: " + levelNumber;
+            leeevd.Exp += 10;
         }
         if (Input.GetKey(KeyCode.M)) 
         {

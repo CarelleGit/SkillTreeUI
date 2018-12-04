@@ -18,7 +18,8 @@ public class Skills
     public string skillName;
     public Button skillButton;
     public ParticleSystem SkillEffects;
-    public float damage;    
+    public float damage;
+    public int defence;
     public KeyCode[] combo;
     [Header("_|Bool|___")]
     public bool unlock = false;
@@ -43,15 +44,16 @@ public class SkillTree : MonoBehaviour
     public List<KeyCode> storedKeys;
     public List<Skills> skills;
     [SerializeField]
-    LevelingShit leveling;
-    [SerializeField]
-  
-
+    PlayerInfo leveling;
+    [SerializeField]  
     bool isTimerRunning = false;
+    
 
     // Use this for initialization
     void Start()
     {
+        leveling.playerLevel = LevelUp;
+        leveling = GetComponent<PlayerInfo>();
         for (int i = 0; i < skills.Count; i++) //sets the names of the skills
         {
             skills[i].skillText.text = skills[i].skillName; //Sets text to teh skill name
@@ -60,18 +62,43 @@ public class SkillTree : MonoBehaviour
             skills[i].cooldownHandle = skills[i].coolDown;
         }
     }
+    void LevelUp(int level)
+    {
+       
+        for (int i = 0; i < skills.Count; i++)
+        {
+          
+            if (leveling.level >= skills[i].level && skills[i].requiredSkill.Length == 0) //checks to see if the player is of the correct level
+            {
+                skills[i].skillButton.interactable = true; //make button interactiable if level requarment is met
+            }
+            else if (skills[i].unlock == true && leveling.level >= skills[i].level - 1)
+            {
+                skills[i].skillButton.interactable = true;
+            }
+            else
+            {
+                skills[i].skillButton.interactable = false;
+            }
+           
+        }
+      
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (storedKeys.Count > 0 && !isTimerRunning)
         {
+
             for (int i = 0; i < skills.Count; i++)
             {
                 for (int j = 0; j < skills[i].requiredSkill.Length; j++)
                 {
                     if (skills[i].requiredSkill[j].interactable == true && skills[i].requiredSkill.Length >= 1)
                     {
-                        if (skills[j].choosenSkill == true && leveling.levelNumber >= skills[i].level - 1)
+                        if (skills[j].choosenSkill == true && leveling.level >= skills[i].level - 1)
                         {
                             skills[i].unlock = true;
                         }
@@ -93,23 +120,9 @@ public class SkillTree : MonoBehaviour
                     }
                 }
             }
+
         }
 
-        for (int i = 0; i < skills.Count; i++)
-        {
-            if (leveling.levelNumber >= skills[i].level && skills[i].requiredSkill.Length == 0) //checks to see if the player is of the correct level
-            {
-                skills[i].skillButton.interactable = true; //make button interactiable if level requarment is met
-            }
-            else if (skills[i].unlock == true && leveling.levelNumber >= skills[i].level - 1)
-            {
-                skills[i].skillButton.interactable = true;
-            }
-            else
-            {
-                skills[i].skillButton.interactable = false;
-            }
-        }
         if (isTimerRunning == false)//This does not belong in the for loop, doing so causes it to clear out the storedKeys way to early
         {
             storedKeys.Clear();
