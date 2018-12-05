@@ -5203,7 +5203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 0
   damage: 0
-  manaAmount: 0
+  manaAmount: 88
   requiredExp: 10
   expScale: 5
 --- !u!114 &305600859
