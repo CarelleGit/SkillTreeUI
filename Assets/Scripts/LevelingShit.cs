@@ -6,14 +6,13 @@ using UnityEngine.UI;
 public class LevelingShit : MonoBehaviour
 {
     public Text level;
-    public Text mana;
     public int levelNumber = 0;
-    public int manaAmount = 0;
+    
     public PlayerInfo leeevd;
     // Use this for initialization
     void Start()
     {
-        mana.text = "Mana: " + manaAmount;
+
         level.text = "Level: " + leeevd.level;
     }
 
@@ -24,10 +23,6 @@ public class LevelingShit : MonoBehaviour
         {
             leeevd.Exp += 10;
         }
-        if (Input.GetKey(KeyCode.M)) 
-        {
-            manaAmount++;
-            mana.text = "Mana: " + manaAmount;
-        }
+ 
     }
 }

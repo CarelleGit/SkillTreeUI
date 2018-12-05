@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 /*TODO
-        Make a PlayerInfo script
         Make a UI Script
-        Make so that way the Choosen Skill bool is more Auto
-        replace LevelingShit with PlayerInfo
         Make the Inspector UI look better end easier to navagate
         TEST
         Once Done Comment on how to hook everything up
@@ -22,8 +19,8 @@ public class Skills
     public int defence;
     public KeyCode[] combo;
     [Header("_|Bool|___")]
-    public bool unlock = false;
-    public bool choosenSkill = false;
+    public bool unlockable = false;
+    public bool unlockedSkill = false;
     [Header("_|Level Requirements|___")]
     public Button[] requiredSkill;
     public int level;
@@ -45,9 +42,9 @@ public class SkillTree : MonoBehaviour
     public List<Skills> skills;
     [SerializeField]
     PlayerInfo leveling;
-    [SerializeField]  
+    [SerializeField]
     bool isTimerRunning = false;
-    
+
 
     // Use this for initialization
     void Start()
@@ -64,15 +61,31 @@ public class SkillTree : MonoBehaviour
     }
     void LevelUp(int level)
     {
-       
-        for (int i = 0; i < skills.Count; i++)
+        for (int i = 0; 1 < skills.Count; i++)
         {
-          
-            if (leveling.level >= skills[i].level && skills[i].requiredSkill.Length == 0) //checks to see if the player is of the correct level
+            if(level >= skills[i].level)
             {
-                skills[i].skillButton.interactable = true; //make button interactiable if level requarment is met
+               
+                if (skills[i].requiredSkill.Length >= 1)
+                {
+                    for (int j = 0; j < skills[i].requiredSkill.Length; j++)
+                    {
+                        if (skills[j].unlockedSkill)
+                        {
+                            skills[i].skillButton.interactable = true;
+                        }
+                    }
+                }
+                else
+                {
+                    skills[i].unlockable = true;
+                }
             }
-            else if (skills[i].unlock == true && leveling.level >= skills[i].level - 1)
+            else
+            {
+                skills[i].unlockable = false;
+            }
+            if(skills[i].unlockable)
             {
                 skills[i].skillButton.interactable = true;
             }
@@ -80,10 +93,41 @@ public class SkillTree : MonoBehaviour
             {
                 skills[i].skillButton.interactable = false;
             }
-           
         }
-      
-        
+        //for (int i = 0; i < skills.Count; i++)
+        //{
+        //    for (int j = 0; j < skills[i].requiredSkill.Length; j++)
+        //    {
+        //        if (skills[i].requiredSkill[j].interactable == true && skills[i].requiredSkill.Length >= 1)
+        //        {
+        //            if (skills[j].unlockedSkill == true && level >= skills[i].level - 1)
+        //            {
+        //                skills[i].skillButton.interactable = true;
+        //                break;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            skills[i].unlockable = false;
+        //        }
+        //    }
+        //    if(leveling.level >= skills[i].level)
+        //    {
+        //        skills[i].unlockable = true;
+        //    }
+        //    if (skills[i].unlockable && skills[i].requiredSkill.Length == 0) //checks to see if the player is of the correct level
+        //    {
+        //        skills[i].skillButton.interactable = true; //make button interactiable if level requarment is met
+        //    }
+        //    else
+        //    {
+        //        skills[i].skillButton.interactable = false;
+        //    }
+        //     if (skills[i].unlockable)
+        //    {
+        //        skills[i].skillButton.interactable = true;
+        //    }
+        //}
     }
 
     // Update is called once per frame
@@ -91,51 +135,36 @@ public class SkillTree : MonoBehaviour
     {
         if (storedKeys.Count > 0 && !isTimerRunning)
         {
-
             for (int i = 0; i < skills.Count; i++)
             {
-                for (int j = 0; j < skills[i].requiredSkill.Length; j++)
+                if (skills[i].unlockedSkill != false)
                 {
-                    if (skills[i].requiredSkill[j].interactable == true && skills[i].requiredSkill.Length >= 1)
-                    {
-                        if (skills[j].choosenSkill == true && leveling.level >= skills[i].level - 1)
-                        {
-                            skills[i].unlock = true;
-                        }
-                    }
-                    else
-                    {
-                        skills[i].unlock = false;
-                    }
-                }
-                if (skills[i].choosenSkill != false)
-                {
-
                     if (skills[i].combo[0] == storedKeys[0])
                     {
                         //Debug.Log("Timer started!");
                         isTimerRunning = true;
-                        StartCoroutine(KeyReader(/*i*/));
+                        StartCoroutine(KeyReader());
                         break;
                     }
                 }
             }
-
+            if (!isTimerRunning)
+            {
+                storedKeys.Clear();
+            }
         }
 
-        if (isTimerRunning == false)//This does not belong in the for loop, doing so causes it to clear out the storedKeys way to early
-        {
-            storedKeys.Clear();
-        }
+
     }
     public void BoolCheck(string skillName)
     {
         for (int i = 0; i < skills.Count; i++)
         {
+           
             if (skillName == skills[i].skillName)
             {
-                skills[i].choosenSkill = true;
-
+                skills[i].unlockedSkill = true;
+               
             }
         }
     }
@@ -148,54 +177,56 @@ public class SkillTree : MonoBehaviour
             storedKeys.Add(e.keyCode);
         }
     }
-    IEnumerator KeyReader(/*int i*/)
+    IEnumerator KeyReader()
     {
+        Debug.Log("Key reader started.");
         yield return new WaitForSeconds(1);
 
-        for (int i = 0; i < skills.Count; i++)
+        for (int i = 0; i < skills.Count; ++i)
         {
-            if (storedKeys.Count != skills[i].combo.Length)
-            { continue; }
-
+            if (storedKeys.Count == skills[i].combo.Length)
+            {
                 bool match = true;
-        for (int j = 0; j < skills[i].combo.Length; j++)
-        {
-            if (storedKeys[j] != skills[i].combo[j])
-            {
-                match = false;
-                break;
+                for (int j = 0; j < skills[i].combo.Length; j++)
+                {
+                    if (storedKeys[j] != skills[i].combo[j])
+                    {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match && skills[i].manaCost <= leveling.manaAmount && skills[i].cooldownHandle >= skills[i].coolDown)
+                {
+                    StartCoroutine(CoolDown(i));
+                    leveling.manaAmount -= skills[i].manaCost;
+                    if (!skills[i].SkillEffects.gameObject.activeInHierarchy)
+                    {
+                        skills[i].SkillEffects.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        skills[i].SkillEffects.Play();
+                    }
+                    break;
+                }
             }
         }
-        if (match && skills[i].manaCost <= leveling.manaAmount && skills[i].cooldownHandle >= skills[i].coolDown)
-        {
-            StartCoroutine(CoolDown(i));
-            leveling.manaAmount -= skills[i].manaCost;
-            if (!skills[i].SkillEffects.gameObject.activeInHierarchy)
-            {
-                skills[i].SkillEffects.gameObject.SetActive(true);
-            }
-            else
-            {
-                skills[i].SkillEffects.Play();
-            }
-                break;
-            }
-        }
+
         storedKeys.Clear();
-        //Debug.Log("Timer stopped!");
+        Debug.Log("Timer stopped!");
         isTimerRunning = false;
     }
     IEnumerator CoolDown(int i)
     {
-        while(skills[i].cooldownHandle > 0)
+        while (skills[i].cooldownHandle > 0)
         {
             skills[i].cooldownHandle -= 1;
             skills[i].cooldown.text = "Cool Down: " + skills[i].cooldownHandle;
             yield return new WaitForSeconds(1);
-           
+
         }
         skills[i].cooldownHandle = skills[i].coolDown;
-       
+
     }
 }
 

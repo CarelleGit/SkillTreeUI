@@ -5141,13 +5141,13 @@ MonoBehaviour:
     SkillEffects: {fileID: 786798170}
     damage: 1
     defence: 0
-    combo: 
-    unlock: 0
-    choosenSkill: 0
+    combo: 660000006600000066000000
+    unlockable: 0
+    unlockedSkill: 0
     requiredSkill: []
     level: 1
     manaCost: 20
-    coolDown: 10
+    coolDown: 100
     skillText: {fileID: 1897565538}
     LevelReqirement: {fileID: 0}
     Damage: {fileID: 0}
@@ -5159,8 +5159,8 @@ MonoBehaviour:
     damage: 2
     defence: 0
     combo: 6600000066000000
-    unlock: 0
-    choosenSkill: 0
+    unlockable: 0
+    unlockedSkill: 0
     requiredSkill:
     - {fileID: 791303761}
     level: 10
@@ -5177,8 +5177,8 @@ MonoBehaviour:
     damage: -2
     defence: 0
     combo: 35000000
-    unlock: 0
-    choosenSkill: 0
+    unlockable: 0
+    unlockedSkill: 0
     requiredSkill: []
     level: 5
     manaCost: 2
@@ -5217,10 +5217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a5f42b0b9d94c48baf8742e73a84a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 762619204}
-  mana: {fileID: 1349315028}
+  level: {fileID: 1722583726}
   levelNumber: 0
-  manaAmount: 0
   leeevd: {fileID: 305600858}
 --- !u!1 &422108839
 GameObject:

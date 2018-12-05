@@ -6,7 +6,7 @@ public class PlayerInfo : MonoBehaviour
 {
     public int level = 0;
     public int damage = 0;
-    public int manaAmount = 0;
+    public int manaAmount = 1000;
     public int requiredExp = 10;
     public int expScale = 5;
     private int multiplier = 2;

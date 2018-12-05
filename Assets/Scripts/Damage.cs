@@ -21,7 +21,7 @@ public class Damage : MonoBehaviour
     {
         for (int i = 0; i < skill.skills.Count; i++)
         {
-            if (skill.skills[i].choosenSkill == true)
+            if (skill.skills[i].unlockedSkill == true)
             {
 
                 //if (Input.GetKeyDown(skill.skills[i].key))
