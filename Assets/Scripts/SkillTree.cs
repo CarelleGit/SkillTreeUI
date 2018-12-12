@@ -21,9 +21,7 @@ public class Skills
     [Header("_|Bool|___")]
     public bool unlockable = false;
     public bool unlockedSkill = false;
-    [Header("_|Level Requirements|___")]
-    public Button[] requiredSkill;
-    public int level;
+   
     [Header("_|Skill Costs|___")]
     public int manaCost;
     public float coolDown;
@@ -34,6 +32,9 @@ public class Skills
     public Text cooldown;
     [HideInInspector]
     public float cooldownHandle;
+    [Header("_|Level Requirements|___")]
+    public Button[] requiredSkill;
+    public int level;
 }
 
 public class SkillTree : MonoBehaviour
@@ -49,7 +50,7 @@ public class SkillTree : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        leveling.playerLevel = LevelUp;
+        leveling.playerLevel += LevelUp;
         leveling = GetComponent<PlayerInfo>();
         for (int i = 0; i < skills.Count; i++) //sets the names of the skills
         {
@@ -61,38 +62,34 @@ public class SkillTree : MonoBehaviour
     }
     void LevelUp(int level)
     {
-        for (int i = 0; 1 < skills.Count; i++)
+        for (int i = 0; i < skills.Count; i++)
         {
-            if(level >= skills[i].level)
+            for (int j = 0; j <= skills[i].requiredSkill.Length; j++)
             {
-               
-                if (skills[i].requiredSkill.Length >= 1)
-                {
-                    for (int j = 0; j < skills[i].requiredSkill.Length; j++)
-                    {
-                        if (skills[j].unlockedSkill)
-                        {
-                            skills[i].skillButton.interactable = true;
-                        }
-                    }
-                }
-                else
+                if ((skills[i].requiredSkill.Length >= 1) && skills[j].unlockedSkill)
                 {
                     skills[i].unlockable = true;
                 }
             }
-            else
-            {
-                skills[i].unlockable = false;
-            }
-            if(skills[i].unlockable)
+
+            if (skills[i].level <= level && skills[i].requiredSkill.Length <= 0)
             {
                 skills[i].skillButton.interactable = true;
             }
+            else if (skills[i].level <= level && skills[i].requiredSkill.Length >= 1)
+            {
+                UnlockedSkills(level, i);
+                //if (skills[i].unlockable)
+                //{
+                //    skills[i].skillButton.interactable = true;
+                //}
+            }
             else
             {
+                skills[i].unlockable = false;
                 skills[i].skillButton.interactable = false;
             }
+
         }
         //for (int i = 0; i < skills.Count; i++)
         //{
@@ -111,7 +108,7 @@ public class SkillTree : MonoBehaviour
         //            skills[i].unlockable = false;
         //        }
         //    }
-        //    if(leveling.level >= skills[i].level)
+        //    if (leveling.level >= skills[i].level)
         //    {
         //        skills[i].unlockable = true;
         //    }
@@ -123,7 +120,7 @@ public class SkillTree : MonoBehaviour
         //    {
         //        skills[i].skillButton.interactable = false;
         //    }
-        //     if (skills[i].unlockable)
+        //    if (skills[i].unlockable)
         //    {
         //        skills[i].skillButton.interactable = true;
         //    }
@@ -160,12 +157,24 @@ public class SkillTree : MonoBehaviour
     {
         for (int i = 0; i < skills.Count; i++)
         {
-           
+            if (skills[i].requiredSkill.Length >= 1 && skills[i].level <= leveling.level)
+            {
+                for (int j = 0; j <= skills[i].requiredSkill.Length; j++)
+                {
+                    if (skills[j].unlockedSkill)
+                    {
+                        skills[i].skillButton.interactable = true;
+                        skills[i].unlockable = true;
+                        Debug.Log(skills[j].skillName + " : " + skills[i].skillName);
+                    }
+                }
+            }
             if (skillName == skills[i].skillName)
             {
                 skills[i].unlockedSkill = true;
-               
+
             }
+
         }
     }
     private void OnGUI()
@@ -226,6 +235,18 @@ public class SkillTree : MonoBehaviour
 
         }
         skills[i].cooldownHandle = skills[i].coolDown;
+
+    }
+    void UnlockedSkills(int level, int i)
+    {
+
+        for (int j = 0; j <= skills[i].requiredSkill.Length; j++)
+        {
+            if (skills[j].unlockedSkill && (skills[i].level <= level))
+            {
+                skills[i].skillButton.interactable = true;
+            }
+        }
 
     }
 }

@@ -13,9 +13,11 @@ public class PlayerInfo : MonoBehaviour
 
     public delegate void Level(int level);
     public delegate void OnDamage(int damage);
+    public delegate void Mana(int mana);
 
     public OnDamage damaged;
     public Level playerLevel;
+    public Mana playerMana;
 
     private int _health;
     private int _exp;

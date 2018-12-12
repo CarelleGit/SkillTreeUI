@@ -13,7 +13,7 @@ public class LevelingShit : MonoBehaviour
     void Start()
     {
 
-        level.text = "Level: " + leeevd.level;
+   
     }
 
     // Update is called once per frame

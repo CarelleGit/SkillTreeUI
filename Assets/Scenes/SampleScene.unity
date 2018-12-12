@@ -214,7 +214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.266, y: 0.61959267}
   m_AnchorMax: {x: 0.266, y: 0.61959267}
-  m_AnchoredPosition: {x: -1.9999695, y: 5}
+  m_AnchoredPosition: {x: -1.9999695, y: -120}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &189072137
@@ -264,7 +264,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
           m_FloatArgument: 0
-          m_StringArgument: Aziza Healing
+          m_StringArgument: Heal
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -5057,9 +5057,10 @@ GameObject:
   - component: {fileID: 305600856}
   - component: {fileID: 305600855}
   - component: {fileID: 305600854}
+  - component: {fileID: 305600859}
   - component: {fileID: 305600857}
   - component: {fileID: 305600858}
-  - component: {fileID: 305600859}
+  - component: {fileID: 305600860}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -5136,58 +5137,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storedKeys: 
   skills:
-  - skillName: Skill1
-    skillButton: {fileID: 791303761}
-    SkillEffects: {fileID: 786798170}
-    damage: 1
-    defence: 0
-    combo: 660000006600000066000000
-    unlockable: 0
-    unlockedSkill: 0
-    requiredSkill: []
-    level: 1
-    manaCost: 20
-    coolDown: 100
-    skillText: {fileID: 1897565538}
-    LevelReqirement: {fileID: 0}
-    Damage: {fileID: 0}
-    cooldown: {fileID: 1904181322}
-    cooldownHandle: 0
-  - skillName: Skill2
-    skillButton: {fileID: 260811811}
-    SkillEffects: {fileID: 242128967}
-    damage: 2
-    defence: 0
-    combo: 6600000066000000
-    unlockable: 0
-    unlockedSkill: 0
-    requiredSkill:
-    - {fileID: 791303761}
-    level: 10
-    manaCost: 30
-    coolDown: 20
-    skillText: {fileID: 1689292263}
-    LevelReqirement: {fileID: 0}
-    Damage: {fileID: 0}
-    cooldown: {fileID: 930060851}
-    cooldownHandle: 0
-  - skillName: Aziza Healing
+  - skillName: Heal
     skillButton: {fileID: 189072137}
-    SkillEffects: {fileID: 1733970418}
+    SkillEffects: {fileID: 786798170}
     damage: -2
     defence: 0
     combo: 35000000
     unlockable: 0
     unlockedSkill: 0
-    requiredSkill: []
-    level: 5
-    manaCost: 2
-    coolDown: 5
+    manaCost: 20
+    coolDown: 10
     skillText: {fileID: 1370033855}
     LevelReqirement: {fileID: 0}
     Damage: {fileID: 0}
     cooldown: {fileID: 1423476299}
     cooldownHandle: 0
+    requiredSkill: []
+    level: 5
+  - skillName: Skill1
+    skillButton: {fileID: 791303761}
+    SkillEffects: {fileID: 242128967}
+    damage: -2
+    defence: 0
+    combo: 660000006200000063000000
+    unlockable: 0
+    unlockedSkill: 0
+    manaCost: 20
+    coolDown: 10
+    skillText: {fileID: 1897565538}
+    LevelReqirement: {fileID: 0}
+    Damage: {fileID: 0}
+    cooldown: {fileID: 1904181322}
+    cooldownHandle: 0
+    requiredSkill: []
+    level: 1
+  - skillName: Skill2
+    skillButton: {fileID: 260811811}
+    SkillEffects: {fileID: 1733970418}
+    damage: -2
+    defence: 0
+    combo: 6100000062000000
+    unlockable: 0
+    unlockedSkill: 0
+    manaCost: 20
+    coolDown: 10
+    skillText: {fileID: 1689292263}
+    LevelReqirement: {fileID: 0}
+    Damage: {fileID: 0}
+    cooldown: {fileID: 930060851}
+    cooldownHandle: 0
+    requiredSkill: []
+    level: 10
   leveling: {fileID: 305600858}
   isTimerRunning: 0
 --- !u!114 &305600858
@@ -5217,9 +5217,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a5f42b0b9d94c48baf8742e73a84a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: {fileID: 1722583726}
+  level: {fileID: 0}
   levelNumber: 0
   leeevd: {fileID: 305600858}
+--- !u!114 &305600860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 305600853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b1af80ec5843e24ab2da83cfd51a852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInfo: {fileID: 305600858}
+  playerLevel: {fileID: 762619204}
+  playerMana: {fileID: 1349315028}
+  playerAC: {fileID: 2054299623}
 --- !u!1 &422108839
 GameObject:
   m_ObjectHideFlags: 0
